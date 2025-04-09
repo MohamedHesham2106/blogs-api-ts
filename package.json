@@ -1,0 +1,81 @@
+{
+  "name": "express-ts-prisma",
+  "author": "Mohamed Hesham",
+  "description": "express API + Typescript + Prisma + MongoDb",
+  "version": "1.0.0",
+  "private": false,
+  "scripts": {
+    "vercel-build": "npm run build && prisma generate",
+    "start": "npm run build && cross-env NODE_ENV=production node dist/src/server.js",
+    "dev": "cross-env NODE_ENV=development nodemon",
+    "build": "swc src -d dist --source-maps --copy-files",
+    "build:tsc": "tsc && tsc-alias",
+    "lint": "eslint --ignore-path .gitignore --ext .ts src/",
+    "lint:fix": "npm run lint -- --fix",
+    "prisma:init": "prisma init",
+    "prisma:migrate": "prisma migrate dev --preview-feature",
+    "prisma:generate": "prisma generate",
+    "studio": "npx prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "bcrypt": "^5.1.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "envalid": "^8.0.0",
+    "eslint": "^9.24.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "reflect-metadata": "^0.2.2",
+    "typedi": "^0.10.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.11.18",
+    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/morgan": "^1.9.9",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "cross-env": "^7.0.3",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.17.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "lint-staged": "^15.5.0",
+    "node-config": "^0.0.2",
+    "nodemon": "^3.1.9",
+    "pm2": "^6.0.5",
+    "prettier": "^3.5.3",
+    "prettier-eslint": "^16.3.0",
+    "prisma": "^6.6.0",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.14",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write",
+      "npx eslint --fix"
+    ]
+  },
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
+  }
+}
