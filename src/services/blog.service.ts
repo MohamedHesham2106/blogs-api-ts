@@ -48,8 +48,6 @@ export class BlogService {
     return await this.prisma.blog.create({ data: blogData });
   }
   public async deleteBlogById(id: string, userId: string): Promise<void> {
-    console.log(id, userId);
-
     const foundBlog = await this.prisma.blog.findUnique({
       where: { id },
     });
@@ -61,6 +59,24 @@ export class BlogService {
     }
     await this.prisma.blog.delete({
       where: { id },
+    });
+  }
+  public async updateBlog(id: string, blogData: CreateBlogDto, userId: string): Promise<Blog> {
+    const foundBlog = await this.prisma.blog.findUnique({
+      where: { id },
+    });
+
+    if (!foundBlog) {
+      throw new HttpException(404, 'Blog not found');
+    }
+
+    if (foundBlog.authorId !== userId) {
+      throw new HttpException(403, 'You are not authorized to update this blog');
+    }
+
+    return await this.prisma.blog.update({
+      where: { id },
+      data: { ...blogData },
     });
   }
 }

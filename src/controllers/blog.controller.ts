@@ -77,12 +77,34 @@ export class BlogController {
 
       if (!id) {
         res.status(400).json({ message: 'Blog ID is required in params.' });
+        return;
       }
 
       await this.blogService.deleteBlogById(id, userId);
 
       res.status(200).json({
         message: 'Blog deleted successfully',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  public updateBlog = async (req: RequestWithUser, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user.id;
+      const { id } = req.params;
+      const blogData: CreateBlogDto = req.body;
+
+      if (!id) {
+        res.status(400).json({ message: 'Blog ID is required in params.' });
+        return;
+      }
+
+      const updatedBlog = await this.blogService.updateBlog(id, blogData, userId);
+
+      res.status(200).json({
+        data: updatedBlog,
+        message: 'Blog updated successfully',
       });
     } catch (error) {
       next(error);
