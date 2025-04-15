@@ -4,12 +4,20 @@ import { IsEmail, IsString, IsNotEmpty, MinLength, MaxLength, IsOptional, IsObje
 export class CreateUserDto {
   @IsEmail()
   public email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(7)
+  @MaxLength(100)
+  public name: string;
+
   @IsString()
   @IsNotEmpty()
   @MinLength(7)
   @MaxLength(100)
   public password: string;
 }
+
 export class AuthUserDto {
   @IsEmail()
   public email: string;
@@ -20,13 +28,23 @@ export class AuthUserDto {
   @MaxLength(100)
   public password: string;
 }
+
 export class UserResponseDto {
-  id: string;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
+  public id: string;
+
+  @IsEmail()
+  public email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(7)
+  @MaxLength(100)
+  public name: string;
+
+  public createdAt: Date;
+  public updatedAt: Date;
 
   @IsOptional()
   @IsObject()
-  blogs?: Blog;
+  public blogs?: Blog;
 }

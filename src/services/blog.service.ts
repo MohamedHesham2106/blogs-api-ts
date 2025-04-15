@@ -12,6 +12,14 @@ export class BlogService {
       this.prisma.blog.findMany({
         skip: (page - 1) * limit,
         take: limit,
+        include: {
+          author: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
       }),
       this.prisma.blog.count(),
     ]);
@@ -22,6 +30,14 @@ export class BlogService {
   public async getBlogById(id: string): Promise<Blog> {
     const blog = await this.prisma.blog.findUnique({
       where: { id },
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
 
     if (!blog) throw new HttpException(404, `Blog with ID ${id} not found`);
@@ -29,6 +45,22 @@ export class BlogService {
     return blog;
   }
   public async createBlog(blogData: CreateBlogDto): Promise<Blog> {
-    return this.prisma.blog.create({ data: blogData });
+    return await this.prisma.blog.create({ data: blogData });
+  }
+  public async deleteBlogById(id: string, userId: string): Promise<void> {
+    console.log(id, userId);
+
+    const foundBlog = await this.prisma.blog.findUnique({
+      where: { id },
+    });
+    if (!foundBlog) {
+      throw new HttpException(404, 'Blog not found');
+    }
+    if (foundBlog.authorId !== userId) {
+      throw new HttpException(403, 'You are not authorized to delete this blog');
+    }
+    await this.prisma.blog.delete({
+      where: { id },
+    });
   }
 }

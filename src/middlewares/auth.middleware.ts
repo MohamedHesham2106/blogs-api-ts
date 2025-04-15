@@ -25,6 +25,8 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
       const findUser = await users.findUnique({ where: { id: String(id) } });
       if (findUser) {
         // If the user is found, continue to the next middleware or route
+        // pass user id as well
+        req.user = { id: findUser.id };
         next();
       } else {
         // If the user is not found, return an "Unauthorized" error

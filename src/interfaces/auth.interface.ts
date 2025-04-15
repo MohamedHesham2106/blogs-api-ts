@@ -11,5 +11,5 @@ export interface DataStoredInToken extends Pick<User, 'id'> {
 }
 
 export interface RequestWithUser extends Request {
-  user: SafeUser;
+  user: Pick<SafeUser, 'id'>;
 }

@@ -28,7 +28,11 @@ export class AuthController {
 
   public signIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      console.log(req.body);
+
       const userData = plainToInstance(AuthUserDto, req.body);
+      console.log(userData);
+
       const validationErrors = await validate(userData);
 
       if (validationErrors.length > 0) {

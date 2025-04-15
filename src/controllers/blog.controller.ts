@@ -5,6 +5,7 @@ import { HttpException } from '@/exceptions/HttpException';
 import { plainToInstance } from 'class-transformer';
 import { CreateBlogDto } from '@/dtos/blogs.dto';
 import { validate } from 'class-validator';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 export class BlogController {
   private readonly blogService = Container.get(BlogService);
@@ -63,7 +64,25 @@ export class BlogController {
         data: {
           blog: createdBlog,
         },
-        message: 'blog creation success',
+        message: 'Blog created successfully',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  public deleteBlog = async (req: RequestWithUser, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user.id;
+      const { id } = req.params;
+
+      if (!id) {
+        res.status(400).json({ message: 'Blog ID is required in params.' });
+      }
+
+      await this.blogService.deleteBlogById(id, userId);
+
+      res.status(200).json({
+        message: 'Blog deleted successfully',
       });
     } catch (error) {
       next(error);
