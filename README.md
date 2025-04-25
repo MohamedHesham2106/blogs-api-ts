@@ -23,7 +23,7 @@ This project is a RESTful API built with Express.js, TypeScript, and Prisma ORM,
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/MohamedHesham2106/blogs-api-ts.git
    cd server
    ```
 2. **Install dependencies:**
