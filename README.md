@@ -1,4 +1,4 @@
-# Express TypeScript Prisma API
+# Express TypeScript Prisma Blog API
 
 ## Project Overview
 
