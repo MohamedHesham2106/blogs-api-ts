@@ -1,5 +1,4 @@
-FROM node:18-alpine
-
+FROM node:current-alpine
 WORKDIR /app
 
 # Install Bun
