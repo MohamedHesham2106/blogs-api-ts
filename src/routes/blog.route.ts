@@ -31,8 +31,29 @@ export class BlogRoute implements Routes {
 
     this.router.get(`${this.path}blog`, this.blogController.getAllBlogs);
     this.router.get(`${this.path}blog/:id`, this.blogController.getBlogById);
-    this.router.post(`${this.path}blog`, AuthMiddleware, ValidationMiddleware(CreateBlogDto), this.blogController.createBlog);
+    this.router.post(
+      `${this.path}blog`,
+      AuthMiddleware,
+      ValidationMiddleware(CreateBlogDto),
+      createRouteHandler({
+        router: uploadRouter,
+        config: {
+          token: UPLOADTHING_TOKEN,
+        },
+      }),
+      this.blogController.createBlog,
+    );
     this.router.delete(`${this.path}blog/:id`, AuthMiddleware, this.blogController.deleteBlog);
-    this.router.put(`${this.path}blog/:id`, AuthMiddleware, this.blogController.updateBlog);
+    this.router.put(
+      `${this.path}blog/:id`,
+      AuthMiddleware,
+      createRouteHandler({
+        router: uploadRouter,
+        config: {
+          token: UPLOADTHING_TOKEN,
+        },
+      }),
+      this.blogController.updateBlog,
+    );
   }
 }
